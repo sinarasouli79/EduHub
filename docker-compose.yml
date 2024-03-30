@@ -3,15 +3,20 @@ version: '3'
 services:
   reverse-proxy:
     image: traefik:v3.0.0-rc3
-    command: --api.insecure=true --providers.docker
+    command: --api.dashboard=true --providers.docker
     ports:
       - 80:80
-      - 8080:8080
-    
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+    labels:
+      - "traefik.http.routers.mydashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.mydashboard.service=api@internal"
+
   
-  # web:
-  #   image: nginx:stable-alpine3.17
-  #   ports:
-  #     - 80:80
+  web:
+    image: nginx:stable-alpine3.17
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.http.routers.nginx.rule=Host(`localhost`)"
