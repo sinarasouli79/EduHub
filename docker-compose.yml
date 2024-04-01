@@ -1,22 +1,27 @@
-version: '3'
+version: '3.4'
 
 services:
   reverse-proxy:
     image: traefik:v3.0.0-rc3
-    command: --api.dashboard=true --providers.docker
     ports:
       - 80:80
+      - 443:443
+    command:
+      - "--configFile=./traefik/traefik.yml"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik:/traefik
 
     labels:
-      - "traefik.http.routers.mydashboard.rule=Host(`traefik.localhost`)"
-      - "traefik.http.routers.mydashboard.service=api@internal"
-
-  
+      - traefik.http.routers.dashboard.rule=Host(`traefik.canrasouli.ir`)
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=test-auth"
+      - "traefik.http.middlewares.test-auth.basicauth.users=sina:$$apr1$$M5zr5f7l$$biE.q6KJc3mM/Ge9Mn/SU."
+        
   web:
     image: nginx:stable-alpine3.17
     labels:
       - "traefik.enable=true"
       - "traefik.port=80"
-      - "traefik.http.routers.nginx.rule=Host(`localhost`)"
+      - "traefik.http.routers.nginx.rule=Host(`canrasouli.ir`)"
+

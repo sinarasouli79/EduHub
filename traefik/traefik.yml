@@ -1,0 +1,27 @@
+providers:
+  docker: {}
+
+accessLog: {}
+
+log:
+  level: INFO
+
+api:
+  dashboard: true
+
+entryPoints:
+  web:
+    address: ":80"
+
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: myresolver
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: sinarasouli79@gmail.com
+      storage: acme.json
+      tlsChallenge: {}
