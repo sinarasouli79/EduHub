@@ -1,7 +1,7 @@
 version: '3.4'
-
+volumes:
 services:
-  reverse-proxy:
+  reverse-proxy:  
     image: traefik:v3.0.0-rc3
     ports:
       - 80:80
@@ -11,9 +11,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik:/traefik
+      - './acme.json:/acme.json'
 
     labels:
-      - traefik.http.routers.dashboard.rule=Host(`traefik.canrasouli.ir`)
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.cnarasouli.ir`)"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.options=default"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=mycert"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.middlewares=test-auth"
       - "traefik.http.middlewares.test-auth.basicauth.users=sina:$$apr1$$M5zr5f7l$$biE.q6KJc3mM/Ge9Mn/SU."
@@ -23,5 +28,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.port=80"
-      - "traefik.http.routers.nginx.rule=Host(`canrasouli.ir`)"
+      - "traefik.http.routers.nginx.rule=Host(`cnarasouli.ir`)"
+      - "traefik.http.routers.repo-secure.tls=true"
+      - "traefik.http.routers.repo-secure.tls.options=default"
+      - "traefik.http.routers.repo-secure.tls.certresolver=mycert"
+  
+
 

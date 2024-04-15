@@ -1,5 +1,6 @@
 providers:
-  docker: {}
+  docker:
+    exposedByDefault: false
 
 accessLog: {}
 
@@ -24,4 +25,5 @@ certificatesResolvers:
     acme:
       email: sinarasouli79@gmail.com
       storage: acme.json
-      tlsChallenge: {}
+      httpChallenge:
+        entryPoint: web
