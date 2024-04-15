@@ -1,5 +1,7 @@
 version: '3.4'
 volumes:
+  nexus-data:
+    name: nexus-data
 services:
   reverse-proxy:  
     image: traefik:v3.0.0-rc3
@@ -34,4 +36,21 @@ services:
       - "traefik.http.routers.repo-secure.tls.certresolver=mycert"
   
 
+  nexus:
+    image: klo2k/nexus3
+    volumes:
+      - "nexus-data:/sonatype-work"
+    labels:
+     - "traefik.enable=true"
+     - "traefik.http.routers.nexus.rule=Host(`registry.cnarasouli.ir`)"
+     - "traefik.http.routers.nexus.tls=true"
+     - "traefik.http.routers.nexus.tls.options=default"
+     - "traefik.http.routers.nexus.tls.certresolver=mycert"
+     - "traefik.http.routers.nexus.service=nexus"
+     - "traefik.http.services.nexus.loadbalancer.server.port=8081"
 
+     - "traefik.http.routers.registry.rule=Host(`docker.cnarasouli.ir`)"
+     - "traefik.http.routers.registry.tls=true"
+     - "traefik.http.routers.registry.tls.certresolver=myresolver"
+     - "traefik.http.routers.registry.service=registry-service"
+     - "traefik.http.services.registry-service.loadBalancer.server.port=5000"
