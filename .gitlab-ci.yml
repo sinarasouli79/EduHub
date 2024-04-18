@@ -33,7 +33,7 @@ create-container:
     rules:
         - if: $CI_COMMIT_BRANCH == "main"
     script:
-        - "echo deploy to production"
-        - ssh -o StrictHostKeyChecking=no -i $ID_RSA SERVER_USER@SERVER_IP "
+        - echo deploy to production
+        - ssh -o StrictHostKeyChecking=no -i $ID_RSA SERVER_USER@SERVER_IP
         - cd /opt/EduHub
-        - docker compose up -d --build 
+        - docker compose up -d --build
