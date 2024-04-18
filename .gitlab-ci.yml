@@ -1,0 +1,39 @@
+stages:
+  - build
+  - test
+  - deploy
+
+buildx-docker-image:
+    stage: build
+    rules:
+        - if: $CI_COMMIT_BRANCH == "main"
+    before_script:
+        - echo login to private registry
+        - docker login --username $REGISTRY_USER --password $REGISTRY_PASSWORD https://$REGISTRY_URL
+        - docker buildx create --name multi-arch-builder --platform linux/amd64,linux/arm64,linux/arm/v7
+        - docker buildx use multi-arch-builder   
+        - docker buildx inspect --bootstrap 
+    script:
+        - echo buildx docker image
+        - docker buildx build --platform linux/amd64,linux/arm64 -t $REGISTRY_URL/backend/eduhub:latest --push .                 
+ 
+    after_script:
+        - echo after build docker image
+
+pytest:
+    stage: test
+    rules:
+        - if: $CI_COMMIT_BRANCH == "main"
+    script:
+        echo run pytest test
+
+
+create-container:
+    stage: deploy
+    rules:
+        - if: $CI_COMMIT_BRANCH == "main"
+    script:
+        - "echo deploy to production"
+        - ssh -o StrictHostKeyChecking=no -i $ID_RSA SERVER_USER@SERVER_IP "
+        - cd /opt/EduHub
+        - docker compose up -d --build 
