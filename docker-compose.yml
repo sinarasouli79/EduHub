@@ -1,7 +1,8 @@
 version: '3.4'
 volumes:
-  nexus-data:
-    name: nexus-data
+  nexus-data: {}
+  postgres_data:
+
 services:
   reverse-proxy:  
     image: traefik:v3.0.0-rc3
@@ -39,7 +40,7 @@ services:
   nexus:
     image: klo2k/nexus3
     volumes:
-      - "nexus-data:/sonatype-work"
+      - "nexus-data:/nexus-data"
     labels:
      - "traefik.enable=true"
      - "traefik.http.routers.nexus.rule=Host(`registry.cnarasouli.ir`)"
@@ -54,3 +55,30 @@ services:
      - "traefik.http.routers.registry.tls.certresolver=myresolver"
      - "traefik.http.routers.registry.service=registry-service"
      - "traefik.http.services.registry-service.loadBalancer.server.port=5000"
+
+  db: 
+    image: docker.cnarasouli.ir/db/postgres:16.2-bullseye
+    environment:
+      POSTGRES_USER: "eduhub"
+      POSTGRES_PASSWORD: "p2hvVhwn7c4h+jyOOeXZeA=="
+      POSTGRES_DB: "eduhub_db"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  eduhub:
+    image: docker.cnarasouli.ir/backend/eduhub:latest
+    command: python manage.py runserver 0.0.0.0:8000 
+    
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.eduhub.rule=Host(`api.cnarasouli.ir`)"
+      - "traefik.http.routers.eduhub.middlewares=add-service-prefix"
+      - "traefik.http.middlewares.add-service-prefix.addprefix.prefix=/eduhub"
+      - "traefik.http.routers.repo-secure.tls=true"
+      - "traefik.http.routers.repo-secure.tls.options=default"
+      - "traefik.http.routers.repo-secure.tls.certresolver=mycert"
+ 
