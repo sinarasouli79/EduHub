@@ -81,7 +81,7 @@ WSGI_APPLICATION = "EduHub.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 print(50*3)
 print(os.getenv("DATABASES"))
-DATABASES = json.loads(os.getenv("DATABASES"))
+DATABASES = {"default": {"ENGINE": "django.db.backends.postgresql_psycopg2", "NAME": "eduhub_db", "USER": "eduhub", "PASSWORD": "p2hvVhwn7c4h+jyOOeXZeA==", "HOST": "db", "PORT": "5432"}}
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
