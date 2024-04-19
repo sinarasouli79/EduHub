@@ -32,7 +32,9 @@ create-container:
     stage: deploy
     rules:
         - if: $CI_COMMIT_BRANCH == "main"
-
+    
+    before_script:
+        - chmod 400 $ID_RSA
     script:
         - echo deploy to production
         - ssh -o StrictHostKeyChecking=no -i $ID_RSA $SERVER_USER@$SERVER_IP -p $SSH_PORT
