@@ -17,7 +17,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+print(BASE_DIR)
 load_dotenv()
 
 # Quick-start development settings - unsuitable for production
