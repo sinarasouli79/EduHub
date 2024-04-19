@@ -42,6 +42,6 @@ create-container:
         - chmod 700 ~/.ssh
     script:
         - echo deploy to production
-        - ssh -o StrictHostKeyChecking=no -i $ID_RSA $SERVER_USER@$SERVER_IP -p $SSH_PORT
-        - cd /opt/EduHub
-        - docker compose up -d --pull --build
+        - ssh -o StrictHostKeyChecking=no -i $ID_RSA $SERVER_USER@$SERVER_IP -p $SSH_PORT"
+            cd /opt/EduHub
+            docker compose up -d --pull --build"
