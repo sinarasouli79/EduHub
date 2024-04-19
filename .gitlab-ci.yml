@@ -46,4 +46,5 @@ create-container:
             cd /opt/EduHub &&
             docker login --username $REGISTRY_USER --password $REGISTRY_PASSWORD https://$REGISTRY_URL &&
             docker compose pull eduhub &&
-            docker compose up -d --build"
+            docker compose up -d --build &&
+            cat .env"
