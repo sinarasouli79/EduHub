@@ -25,10 +25,12 @@ load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
-
+print(50*"1")
+print(SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
-
+print(50*"2")
+print(DEBUG)
 ALLOWED_HOSTS = ["api.cnarasouli.ir"]
 
 
@@ -77,6 +79,8 @@ WSGI_APPLICATION = "EduHub.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+print(50*3)
+print(os.getenv("DATABASES")
 DATABASES = json.loads(os.getenv("DATABASES"))
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
