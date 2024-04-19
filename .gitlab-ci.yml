@@ -44,5 +44,6 @@ create-container:
         - echo deploy to production
         - ssh -o StrictHostKeyChecking=no -i $ID_RSA $SERVER_USER@$SERVER_IP -p $SSH_PORT "
             cd /opt/EduHub &&
+            docker login --username $REGISTRY_USER --password $REGISTRY_PASSWORD https://$REGISTRY_URL &&
             docker compose pull eduhub &&
             docker compose up -d --build"
