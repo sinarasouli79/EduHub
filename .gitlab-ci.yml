@@ -40,6 +40,7 @@ create-container:
         - ssh-add "$ID_RSA"
         - mkdir -p ~/.ssh
         - chmod 700 ~/.ssh
+        - docker login --username $REGISTRY_USER --password $REGISTRY_PASSWORD https://$REGISTRY_URL
     script:
         - echo deploy to production
         - ssh -o StrictHostKeyChecking=no -i $ID_RSA $SERVER_USER@$SERVER_IP -p $SSH_PORT "
