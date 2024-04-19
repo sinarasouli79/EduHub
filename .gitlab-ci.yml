@@ -34,7 +34,12 @@ create-container:
         - if: $CI_COMMIT_BRANCH == "main"
     
     before_script:
+        - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+        - eval $(ssh-agent -s)
         - chmod 400 $ID_RSA
+        - ssh-add "$ID_RSA"
+        - mkdir -p ~/.ssh
+        - chmod 700 ~/.ssh
     script:
         - echo deploy to production
         - ssh -o StrictHostKeyChecking=no -i $ID_RSA $SERVER_USER@$SERVER_IP -p $SSH_PORT
