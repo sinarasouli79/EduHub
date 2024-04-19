@@ -80,7 +80,7 @@ WSGI_APPLICATION = "EduHub.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 print(50*3)
-print(os.getenv("DATABASES")
+print(os.getenv("DATABASES"))
 DATABASES = json.loads(os.getenv("DATABASES"))
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
