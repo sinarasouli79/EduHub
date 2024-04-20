@@ -1,7 +1,6 @@
 FROM docker.cnarasouli.ir/backend/python:3.12.3-bullseye
 
 ENV PYTHONUNBUFFERED=1
-WORKDIR /app
 
 RUN apt update && apt upgrade
 RUN pip install --upgrade pip
