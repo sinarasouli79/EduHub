@@ -12,5 +12,7 @@ RUN poetry config virtualenvs.create false
 RUN poetry install
 
 COPY . /app
+RUN pwd
+RUN ls -al
 COPY .env /app
 EXPOSE 8000
