@@ -15,7 +15,7 @@ buildx-docker-image:
         - docker buildx inspect --bootstrap 
     script:
         - echo buildx docker image
-        - docker buildx build --platform linux/amd64,linux/arm64 -t $REGISTRY_URL/backend/eduhub:latest --push .                 
+        - docker buildx build --platform linux/amd64,linux/arm64 -t $REGISTRY_URL/backend/eduhub:latest --no-cache --push .                 
  
     after_script:
         - echo after build docker image
