@@ -10,9 +10,6 @@ RUN pip install poetry
 COPY pyproject.toml poetry.lock /app/
 RUN poetry config virtualenvs.create false
 RUN poetry install
-
+COPY ./.env /app
 COPY . /app
-RUN pwd
-RUN ls -al
-COPY .env /app
 EXPOSE 8000
