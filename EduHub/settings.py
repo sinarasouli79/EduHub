@@ -14,23 +14,16 @@ import json
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-print(BASE_DIR)
-load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
-print(50*"1")
-print(SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
-print(50*"2")
-print(DEBUG)
 ALLOWED_HOSTS = ["api.cnarasouli.ir"]
 
 
@@ -79,9 +72,7 @@ WSGI_APPLICATION = "EduHub.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-print(50*3)
-print(os.getenv("DATABASES"))
-DATABASES = {"default": {"ENGINE": "django.db.backends.postgresql_psycopg2", "NAME": "eduhub_db", "USER": "eduhub", "PASSWORD": "p2hvVhwn7c4h+jyOOeXZeA==", "HOST": "db", "PORT": "5432"}}
+DATABASES = os.getenv("DATABASES")
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
