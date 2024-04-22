@@ -20,3 +20,7 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+if settings.URL_PREFIX:
+        urlpatterns = [path(f'{settings.URL_PREFIX}/', include(urlpatterns))]
+

@@ -106,9 +106,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-FORCE_SCRIPT_NAME = '/eduhub'
-USE_X_FORWARDED_HOST = True
-
+URL_PREFIX="/eduhub"
 STATIC_URL = "static/"
 
 # Default primary key field type
