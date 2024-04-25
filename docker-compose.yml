@@ -76,9 +76,9 @@ services:
       - db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.eduhub.rule=Host(`api.cnarasouli.ir`)"
-      - "traefik.http.routers.eduhub.middlewares=add-service-prefix"
-      - "traefik.http.middlewares.add-service-prefix.addprefix.prefix=/eduhub"
+      - "traefik.http.routers.eduhub.rule=Host(`api.cnarasouli.ir`) && PathPrefix(`/eduhub`)"
+      #- "traefik.http.routers.eduhub.middlewares=add-service-prefix"
+      #- "traefik.http.middlewares.add-service-prefix.addprefix.prefix=/eduhub"
       - "traefik.http.routers.repo-secure.tls=true"
       - "traefik.http.routers.repo-secure.tls.options=default"
       - "traefik.http.routers.repo-secure.tls.certresolver=mycert"
