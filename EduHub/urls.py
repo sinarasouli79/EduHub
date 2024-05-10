@@ -17,13 +17,13 @@ Including another URLconf
 
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path
-urlpatterns = [
-    path('eduhub/admin/', admin.site.urls),
-]
 from django.urls import include, path
 
-urlpatterns = [path("admin/", admin.site.urls), path("", include("main.urls"))]
+
+urlpatterns = [
+    path("eduhub/admin/", admin.site.urls),
+    path("eduhub/", include("main.urls")),
+]
 
 if settings.DEBUG:
     urlpatterns.append(path("__debug__/", include("debug_toolbar.urls")))
