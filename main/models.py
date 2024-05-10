@@ -7,14 +7,14 @@ class User(AbstractUser):
     birth_date = models.DateField(null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.username
-
-    def __repr__(self) -> str:
-        return self.username
+        return f"{self.username}"
 
 
 class Major(models.Model):
     name = models.CharField(max_length=20)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 class Student(models.Model):
@@ -23,7 +23,7 @@ class Student(models.Model):
     major = models.ForeignKey(Major, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
-        return self.user.username
+        return f"{self.user.username}"
 
 
 class Professor(models.Model):
@@ -31,7 +31,8 @@ class Professor(models.Model):
     prof_number = models.CharField(max_length=20)
 
     def __str__(self) -> str:
-        return self.user.username
+        return f"{self.user.username}"
+
 
 class Course(models.Model):
     name = models.CharField(max_length=20)
@@ -41,18 +42,22 @@ class Course(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
-        return f"{self.name}, {self.professor}"
+        return f"{self.name}, {self.professor.user.username}"
+
 
 class Section(models.Model):
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
     time = models.TimeField()
 
     def __str__(self) -> str:
-        return f"{self.course.name}, {self.course.professor.user.username}"
+        return f"{self.course.professor.user.username}, {self.course.name}-{self.time}"
 
 
-class CouserSelection(models.Model):
-    section = models.ForeignKey(Section, on_delete=models.PROTECT) 
+class CourseSelection(models.Model):
+    section = models.ForeignKey(Section, on_delete=models.PROTECT)
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
     place = models.CharField(max_length=20)
     time = models.TimeField()
+
+    def __str__(self) -> str:
+        return f"{self.student.user.username}, {self.section.course.name}-{self.section.time}"
