@@ -12,19 +12,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import json
 import os
-from pathlib import Path
 
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("EDUHUB_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG")
-ALLOWED_HOSTS = ["api.cnarasouli.ir"]
+DEBUG = os.getenv("EDUHUB_DEBUG")
+ALLOWED_HOSTS = json.loads(os.getenv("EDUHUB_ALLOWED_HOSTS"))
 
 
 # Application definition
@@ -55,7 +50,7 @@ if DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
     INTERNAL_IPS = [
-    "127.0.0.1",
+        "127.0.0.1",
     ]
 
 ROOT_URLCONF = "EduHub.urls"
@@ -81,7 +76,7 @@ WSGI_APPLICATION = "EduHub.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-DATABASES = json.loads(os.getenv("DATABASES"))
+DATABASES = json.loads(os.getenv("EDUHUB_DATABASES"))
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -111,14 +106,18 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
-
+print(50 * "*")
+print(os.getenv("EDUHUB_URL_PREFIX", "aa"))
+URL_PREFIX = os.getenv("EDUHUB_URL_PREFIX", "")
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-STATIC_URL = "eduhub/static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = "/var/www/eduhub/static/"
+if URL_PREFIX:
+    STATIC_URL = f"{URL_PREFIX}/static/"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-CSRF_TRUSTED_ORIGINS = ["https://*.cnarasouli.ir"]
+CSRF_TRUSTED_ORIGINS = json.loads(os.getenv("EDUHUB_CSRF_TRUSTED_ORIGINS", "[]"))
